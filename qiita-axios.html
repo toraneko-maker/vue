@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Qiita API × Axios</title>
+
+  <script src="https://unpkg.com/vue@3.5.0/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h2>Qiita 記事検索</h2>
+
+    <input v-model="keyword" placeholder="キーワードを入力">
+    <button @click="search">検索</button>
+
+    <p v-if="loading">検索中...</p>
+
+    <ul>
+      <li v-for="item in items" :key="item.id">
+        <a :href="item.url" target="_blank">
+          {{ item.title }}
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          keyword: "",
+          items: [],
+          loading: false
+        }
+      },
+      methods: {
+        async search() {
+          if (!this.keyword) return
+
+          this.loading = true
+          this.items = []
+
+          const url = "https://qiita.com/api/v2/items"
+
+          try {
+            const res = await axios.get(url, {
+              params: {
+                query: this.keyword,
+                per_page: 5
+              }
+            })
+            this.items = res.data
+          } catch (e) {
+            alert("取得失敗")
+          } finally {
+            this.loading = false
+          }
+        }
+      }
+    })
+
+    app.mount("#app")
+  </script>
+</body>
+</html>

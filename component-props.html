@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>component props</title>
+  <script src="https://unpkg.com/vue@3.5.0/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h2>props の例</h2>
+
+    <my-title title="タイトルA"></my-title>
+    <my-title title="タイトルB"></my-title>
+    <my-title title="タイトルC"></my-title>
+  </div>
+
+  <script>
+    const app = Vue.createApp({})
+
+    app.component('my-title', {
+      props: ['title'],
+      template: `
+        <h3>{{ title }}</h3>
+      `
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Cat API × Axios</title>
+
+  <!-- Vue（CDN） -->
+  <script src="https://unpkg.com/vue@3.5.0/dist/vue.global.js"></script>
+  <!-- Axios（CDN） -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <style>
+    img { max-width: 400px; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>Cat API × Axios</h2>
+
+    <button @click="getCat">ねこ画像を取得</button>
+
+    <p v-if="loading">読み込み中...</p>
+    <p v-if="error" style="color:red;">{{ error }}</p>
+
+    <div v-if="catUrl">
+      <img :src="catUrl" alt="cat">
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          catUrl: "",
+          loading: false,
+          error: ""
+        }
+      },
+      methods: {
+        async getCat() {
+          this.loading = true
+          this.error = ""
+          this.catUrl = ""
+
+          try {
+            // The Cat API（画像1枚）
+            const res = await axios.get("https://api.thecatapi.com/v1/images/search")
+            this.catUrl = res.data[0].url
+          } catch (e) {
+            this.error = "取得に失敗しました（ネットワーク or URL確認）"
+          } finally {
+            this.loading = false
+          }
+        }
+      }
+    })
+
+    app.mount("#app")
+  </script>
+</body>
+</html>

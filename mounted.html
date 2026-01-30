@@ -2,27 +2,25 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>v-if sample</title>
+  <title>mounted sample</title>
   <script src="https://unpkg.com/vue@3.5.0/dist/vue.global.js"></script>
 </head>
 <body>
   <div id="app">
-    <p v-if="isOK">OKです</p>
-    <p v-else>NGです</p>
-    <button @click="toggle">切り替え</button>
+    <p>カウント：{{ count }}</p>
   </div>
 
   <script>
     const app = Vue.createApp({
       data() {
         return {
-          isOK: true
+          count: 0
         }
       },
-      methods: {
-        toggle() {
-          this.isOK = !this.isOK
-        }
+      mounted() {
+        setInterval(() => {
+          this.count++
+        }, 1000)
       }
     })
 

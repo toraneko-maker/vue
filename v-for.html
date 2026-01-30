@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>v-for table</title>
+  <script src="https://unpkg.com/vue@3.5.0/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h2>メモ一覧</h2>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>タイトル</th>
+          <th>内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="note in notes" :key="note.id">
+          <td>{{ note.id }}</td>
+          <td>{{ note.title }}</td>
+          <td>{{ note.body }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          notes: [
+            { id: 1, title: "買い物", body: "牛乳を買う" },
+            { id: 2, title: "課題", body: "v-forをやる" },
+            { id: 3, title: "予定", body: "明日pushする" }
+          ]
+        }
+      }
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>
